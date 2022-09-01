@@ -894,4 +894,116 @@ SBA,Stand-By Arrangement,imf DOC
 SDDS,Special Data Dissemination Standard,imf DOC
 SDMX,Statistical Data and Metadata Exchange,imf DOC
 TA,technical assistance,imf DOC
-TSR,Triennial Surveilla
+TSR,Triennial Surveillance Review,imf DOC
+TTF,topical trust fund,imf DOC
+WEO ,World Economic Outlook,imf DOC
+ABS ,Antilock brake system,imf DOC
+ABS,Australian Bureau of Statistics,imf DOC
+AF,Acre foot,imf DOC
+ANZIC,Australian and New Zealand Standard Industrial Classification,imf DOC
+ATM,Automated teller machine,imf DOC
+BPM5,"Balance of Payments Manual, Fifth Edition",imf DOC
+BEA,Bureau of Economic Analysis,imf DOC
+BLS,U.S. Bureau of Labor Statistics,imf DOC
+CAPI,Computer-assisted personal interviews,imf DOC
+CATI,Computer-assisted telephone interviews,imf DOC
+CD,Compact disk,imf DOC
+CD-ROM,Compact disk-read-only memory,imf DOC
+CD-RW,Compact disk-rewritable,imf DOC
+c.i.f.,Cost-insurance-freight,imf DOC
+CIR,Current Industrial Report,imf DOC
+COFOG,Classification of the Functions of Government,imf DOC
+COICOP,Classification of Individual Consumption by Purpose,imf DOC
+COL,Cost of living,imf DOC
+COPNI,Classification of the Purposes of Nonprofit Institutions Serving Households,imf DOC
+COPP,Classification of the Purposes of Producers,imf DOC
+CPA,"Classification of Products by Activity, also known as PRODCOM (Eurostat)",imf DOC
+CPC,Central Product Classification,imf DOC
+CPI,Consumer price index,imf DOC
+CSWD,"Carruthers, Sellwood, Ward, Dalén price index",imf DOC
+DRAM,Dynamic random-access memory,imf DOC
+DRG,Diagnostic-Related Group,imf DOC
+DRP,Disaster Recovery Plan,imf DOC
+EC,European Commission,imf DOC
+ECB,European Central Bank,imf DOC
+ECI,Employment cost index,imf DOC
+EDI,Electronic data interchange,imf DOC
+EFQM,European Foundation for Quality Management,imf DOC
+ESMR,Enhanced specialized mobile radio,imf DOC
+EU,European Union,imf DOC
+FEPI,Final expenditure price index,imf DOC
+FIOPI,Fixed-input output price index,imf DOC
+FISIM,Financial Intermediation Services Implicitly Measured,imf DOC
+f.o.b. ,Free on board,imf DOC
+FOIPI,Fixed-output input price index,imf DOC
+FPI,Final uses price index,imf DOC
+FPPI,Farm product price index,imf DOC
+GB,Gigabytes,imf DOC
+GDDS,General Data Dissemination System (IMF),imf DOC
+GDP,Gross domestic product,imf DOC
+GPI,Global price index; government price index,imf DOC
+GPS,Global positioning system,imf DOC
+HBS,Household Budget Survey,imf DOC
+HICPs,Harmonized Indices of Consumer Prices (Eurostat),imf DOC
+HPI,Household consumption price index,imf DOC
+HS,Harmonized Commodity Description and Coding System,imf DOC
+ICP,Implicit characteristic price,imf DOC
+ICPI,Intermediate consumption price index,imf DOC
+IDI,Implicit deflator index,imf DOC
+ILO,International Labour Office /International Labour Organization,imf DOC
+IMF,International Monetary Fund,imf DOC
+I/O,Input/output,imf DOC
+IPP,International Price Program,imf DOC
+ISIC,International Standard Industrial Classification of All Economic Activities,imf DOC
+ISO,International Standards Organization,imf DOC
+IT,Information technology,imf DOC
+IWGPS,Inter-Secretariat Working Group on Price Statistics,imf DOC
+KPI,Fixed capital formation price index ,imf DOC
+LIFO,"Last in, first out",imf DOC
+LKAU,Local kind of activity unit,imf DOC
+LPG,Liquefied propane gas,imf DOC
+MPI,Import price index,imf DOC
+MSA,Metropolitan Statistical Area,imf DOC
+NACE,General Industrial Classification of Economic Activities within the European Communities,imf DOC
+NAFTA,North American Free Trade Association,imf DOC
+NAICS,North American Industrial Classification System,imf DOC
+SNA,System of National Accounts ,imf DOC
+NPI,Inventory price index,imf DOC
+NPISH,Nonprofit institution serving households,imf DOC
+OECD,Organisation for Economic Co-operation and Development,imf DOC
+OLS,Ordinary least squares ,imf DOC
+PC,Personal computer,imf DOC
+PCE,Personal consumption expenditures,imf DOC
+PCS,Personal communications service,imf DOC
+PDA,Personal digital assistant,imf DOC
+PMC,Profit-maximizing center,imf DOC
+PPI,Producer price index,imf DOC
+PPP,Purchasing power parity,imf DOC
+PPS,Probability proportional to size,imf DOC
+PR,Price relative,imf DOC
+PRODCOM,Product/commodity classification system for the European Community,imf DOC
+RAM,Random-access memory,imf DOC
+RH,Ratio of harmonic average prices,imf DOC
+RMSE,Root mean square error,imf DOC
+ROSC,Reports on the Observance of Standards and Codes,imf DOC
+rpm,Revolutions per minute,imf DOC
+RSA,Residential Service Area,imf DOC
+SAF,Seasonal adjustment factors,imf DOC
+SDDS,Special Data Dissemination Standard (IMF),imf DOC
+SEHI,Superlative and exact hedonic indices,imf DOC
+SIC,Standard Industrial Classification,imf DOC
+SITC,Standard International Trade Classification,imf DOC
+SMI,Supply markup index,imf DOC
+SNA,System of National Accounts,imf DOC
+SPI,Supply price index,imf DOC
+SSR,Structured Schedule Review,imf DOC
+SUT,Supply and use table,imf DOC
+TEG-PPI,Technical Expert Group for the Producer Price Index ,imf DOC
+UN,United Nations,imf DOC
+UNECE,UN Economic Commission for Europe,imf DOC
+VAT,Value-added tax,imf DOC
+VPI,Valuables price index,imf DOC
+WD,Wheel drive,imf DOC
+WLS,Weighted least squares,imf DOC
+WPI,Wholesale price index,imf DOC
+XPI,Export price index,imf DOC
