@@ -1,0 +1,1 @@
+"""This module handles the recovery of words t
