@@ -170,4 +170,145 @@ def cached_infer_correct_word(
         sim_thresh=sim_thresh,
         print_log=print_log,
         min_len=min_len,
-        
+        use_suggest_score=use_suggest_score,
+    )
+
+    if len(word) < min_len:
+        return payload
+
+    candidates = get_suggestions(word, argument_hash=word)
+    lowered_candidates = [i.lower() for i in candidates]
+
+    lword = word.lower()
+    if lword in set(lowered_candidates):
+        # This handles cases corresponding to countries
+        payload["correct_word"] = candidates[lowered_candidates.index(lword)]
+        payload["score"] = 1
+
+        return payload
+
+    if use_suggest_score:
+        suggest_score = 1 / rankdata(range(len(candidates))) ** 0.5
+    else:
+        suggest_score = np.ones(len(candidates))
+
+    if candidates:
+        try:
+            m_word = morph_word(word)
+            m_candidates = [morph_word(c.lower()) for c in candidates]
+
+            tfidf = TfidfVectorizer(analyzer="char", ngram_range=(2, 4))
+            cand_vecs = tfidf.fit_transform(m_candidates)
+            word_vec = tfidf.transform([m_word])
+
+            rank_score = 1.0 / rankdata([edit_distance(m_word, x)
+                                         for x in m_candidates])
+
+            sim = cosine_similarity(cand_vecs, word_vec)
+            sim_r = sim * \
+                rank_score.reshape(-1, 1) * suggest_score.reshape(-1, 1)
+
+            sim_ind = sim_r.argmax()
+            score = sim_r[sim_ind]
+            if score > sim_thresh:
+                correct_word = candidates[sim_ind]
+        except Exception:
+            print(f"Error word: {word}")
+
+    if print_log:
+        print(sim_r)
+        print(rank_score)
+        print(word)
+        print(candidates)
+        print(candidates[sim_ind])
+
+    payload["correct_word"] = correct_word
+    payload["score"] = float(score)
+
+    return payload
+
+
+class Respeller:
+    """
+    Use https://joblib.readthedocs.io/en/latest/auto_examples/memory_basic_usage.html#sphx-glr-auto-examples-memory-basic-usage-py
+    to efficiently cache data for parallel computing.
+    """
+
+    def __init__(self, config=None, dictionary_file=None, spell_threshold=0.25,
+                 allow_proper=False, spell_cache=None):
+        """This respelling module tries to recover some misspelled words.
+        This is done using enchant and text mining methods.
+
+        Args:
+            allow_proper:
+                If set to True, this option allows suggestions that are
+                proper nouns (first letter is capitalized).
+
+                This seems ok to use if entity-based and pos-tag-based filters
+                have already been applied prior to the respelling.
+
+        """
+        if config:
+            self.config = config
+        else:
+            self.config = dict(respeller=dict(
+                dictionary_file=dictionary_file,
+                spell_threshold=spell_threshold,
+                allow_proper=allow_proper,
+                spell_cache=spell_cache,
+            ))
+
+        respeller_conf = self.config['respeller']
+
+        self.spell_cache = respeller_conf.get(
+            'spell_cache', spell_cache)
+        self.spell_cache = self.spell_cache if self.spell_cache is not None else {}  # pd.Series()
+
+        self.dictionary_file = respeller_conf.get(
+            'dictionary_file', dictionary_file)
+
+        self.spell_threshold = respeller_conf.get(
+            'spell_threshold', spell_threshold)
+
+        self.allow_proper = respeller_conf.get(
+            'allow_proper', allow_proper)
+
+        self.stopwords = set(stopwords)
+
+        """
+        TODO: Find a way to use an adaptive spell_threshold based on the length of the word.
+        """
+
+        if (self.dictionary_file is not None) and os.path.isfile(self.dictionary_file):
+            self.spell_cache = pd.read_csv(self.dictionary_file)
+
+    def save_spell_cache(self):
+        """Option to save the local cache to a file.
+
+        Make sure that the target file is not None (default).
+
+        """
+        assert self.dictionary_file is not None
+        pd.Series(self.spell_cache).to_csv(self.dictionary_file)
+
+    def infer_correct_word(
+            self, word, sim_thresh: float = 0.0, print_log: bool = False,
+            min_len: int = 3, use_suggest_score: bool = True) -> dict:
+        """Try to infer the correct word for a single misspelled word.
+
+        Args:
+            word:
+                This is the misspelled word that requires checking for fix.
+            sim_thresh:
+                Similarity threshold to use to check if the candidate is
+                acceptable.
+                The similarity is derived based on character similarity
+                and rank based on enchant's suggestions.
+            print_log:
+                Option to print the payload.
+            min_len:
+                Minimum length of token to check.
+                If less than the `min_len`, don't attempt to fix.
+            use_suggest_score:
+                Flag whether to use the rank of enchant's suggestion in
+                computing for the similarity s
