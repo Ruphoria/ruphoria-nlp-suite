@@ -598,4 +598,8 @@ class SpellingModels:
 
                 word_streak = 0
                 temp_span = ""
-            
+                val_span = ""
+                ends_space = False
+                alpha_streak = 0
+
+        return text
