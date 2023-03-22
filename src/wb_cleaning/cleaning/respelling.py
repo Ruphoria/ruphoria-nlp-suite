@@ -452,4 +452,150 @@ class OptimizedSpellChecker(SpellChecker):
             lang=en_lang.get_en_dict(),
             text=spell_checker_conf.get('text', text),
             tokenize=spell_checker_conf.get('tokenize', tokenize),
-            chunkers=spell_ch
+            chunkers=spell_checker_conf.get('chunkers', chunkers),
+            filters=spell_checker_conf.get('filter', filters)
+        )
+
+    def set_tokens(self, tokens):
+        """Set the text to be spell-checked.
+
+        This method must be called, or the 'text' argument supplied
+        to the constructor, before calling the 'next()' method.
+
+        """
+        self._tokens = enumerate(tokens)
+
+    def next(self):
+        """Process text up to the next spelling error.
+
+        This method is designed to support the iterator protocol.
+        Each time it is called, it will advance the 'word' attribute
+        to the next spelling error in the text.  When no more errors
+        are found, it will raise StopIteration.
+
+        The method will always return self, so that it can be used
+        sensibly in common idioms such as:
+            for err in checker:
+                err.do_something()
+
+        """
+        # Find the next spelling error.
+        # The uncaught StopIteration from next(self._tokens)
+        # will provide the StopIteration for this method
+        while True:
+            pos, word = next(self._tokens)
+            if word in self.dict_words:
+                continue
+            if self.dict.check(word):
+                self.dict_words.add(word)
+                continue
+            if word in self._ignore_words:
+                continue
+            self.word = word
+            self.wordpos = pos
+            if word in self._replace_words:
+                self.replace(self._replace_words[word])
+                continue
+            break
+        return self
+
+
+# General Text Processors
+class SpellingModels:
+    """
+    This class holds the needed methods to abstract the fixing of
+    misspelled and fragmented words.
+    """
+
+    def __init__(self, config: dict):
+        self.config = config
+        assert 'spell_checker' in self.config
+        assert 'respeller' in self.config
+
+        self.spell_checker = OptimizedSpellChecker(
+            config=self.config)
+        self.respeller = Respeller(
+            config=self.config)
+
+    def fix_spellings(self, tokens: list) -> list:
+        """This is the main method that handles the fixing of misspelled words.
+
+        Args:
+            tokens:
+                Input tokens that have already been filtered and tokenized.
+
+        Returns:
+            A list of tokens with unrecoverable misspelled words removed.
+            Misspelled words having a viable fix are replaced.
+
+        """
+        self.spell_checker.set_tokens(tokens)
+
+        unfixed_tokens, fixed_tokens_map = self.respeller.infer_correct_words(
+            [err_word.word for err_word in self.spell_checker],
+            return_tokens_as_list=self.config["respeller"]["infer_correct_words"]["return_tokens_as_list"],
+            infer_correct_word_params=self.config["respeller"]["infer_correct_words"]["infer_correct_word_params"]
+        )
+
+        tokens = list(
+            itertools.chain.from_iterable(
+                [
+                    fixed_tokens_map.get(token, [token])
+                    for token in tokens
+                    if token not in unfixed_tokens
+                ]
+            )
+        )
+
+        return tokens
+
+    @staticmethod
+    def recover_segmented_words(raw_input: str, max_len: int = 5) -> str:
+        """This algorithm processes and input text to detect and fix any malformed words.
+        This does not attempt to split contiguous words.
+
+        Example:
+            input: "million p rote c te d   by u n h c r Of the world's displaced"
+            output: "million protected by unhcr Of the world's displaced"
+
+        """
+
+        alpha_streak = 0
+        word_streak = 0
+        val_span = ""
+        temp_span = ""
+        ends_space = False
+        spaces = {" ", "\n", "\t"}
+
+        # Handle plural form of acronyms, e.g., IDPs -> IDP
+        raw_text = re.sub(r"(\W[A-Z]{2,})(s)(\W)", r"\1\3", raw_input)
+        # Add non-alpha character at the end.
+        raw_text = raw_text + ' '
+
+        text = ""
+
+        for i in raw_text:
+            if i.isalpha():
+                alpha_streak += 1
+                temp_span += i
+                ends_space = False
+            else:
+                if (alpha_streak and alpha_streak <= max_len) or (val_span and ends_space):
+                    if i in spaces:
+                        val_span += temp_span + i
+                        word_streak += 1
+                        temp_span = ""
+                        # Speeds up processing vs. using val_span[-1].isspace()!
+                        ends_space = True
+                        alpha_streak = 0
+                        continue
+
+                if word_streak >= 2:
+                    text += " ".join(wordninja.split("".join(val_span.split())))
+                    text += " " + temp_span + i
+                else:
+                    text += val_span + temp_span + i
+
+                word_streak = 0
+                temp_span = ""
+            
