@@ -311,4 +311,145 @@ class Respeller:
                 If less than the `min_len`, don't attempt to fix.
             use_suggest_score:
                 Flag whether to use the rank of enchant's suggestion in
-                computing for the similarity s
+                computing for the similarity score.
+
+        Returns:
+            A dictionary containing the payload for the word.
+
+        """
+
+        # if ('infer_correct_word' in self.config['respeller']) and not override_config:
+        #     sim_thresh = self.config['respeller']['infer_correct_word'].get(
+        #         'sim_thresh', sim_thresh)
+        #     print_log = self.config['respeller']['infer_correct_word'].get(
+        #         'print_log', print_log)
+        #     min_len = self.config['respeller']['infer_correct_word'].get(
+        #         'min_len', min_len)
+        #     use_suggest_score = self.config['respeller']['infer_correct_word'].get(
+        #         'use_suggest_score', use_suggest_score)
+
+        if word not in self.spell_cache:
+            # Implement internal caching as well since Memory is still slow
+            # due to its utilization of disk.
+            payload = cached_infer_correct_word(
+                word,
+                sim_thresh=sim_thresh,
+                print_log=print_log,
+                min_len=min_len,
+                use_suggest_score=use_suggest_score,
+                argument_hash=word,
+            )
+
+            self.spell_cache[word] = payload
+
+        return self.spell_cache[word]
+
+    def qualified_word(self, word: str) -> bool:
+        """Checks for the validity of the word.
+
+        Filters such as stopwords, title case, and length are applied
+        to check if the candidate word is actually valid.
+
+        Args:
+            word:
+                Word to be tested for validity.
+
+        Returns:
+            The validity of the word.
+
+        """
+        is_valid = (
+            (word not in self.stopwords)
+            and ((not word[0].isupper()) or self.allow_proper)
+            and len(word) > 2
+        )
+
+        return is_valid
+
+    def infer_correct_words(
+            self, words: list, return_tokens_as_list: bool,
+            infer_correct_word_params: dict) -> [set, dict]:
+        """Applies the inference of correct words to a list of input words.
+
+        Args:
+            words:
+                List of misspelled tokens found using the spell checker.
+            return_tokens_as_list:
+                Option whether to return a list of list or list of strings.
+                list of list handles the case for compound word suggestions.
+                The value for this option is dependent on the use-case.
+            infer_correct_word_params:
+                This contains the parameters that controls how the
+                `infer_correct_word` method behaves.
+                Ideally, this should be defined in the config files.
+
+        Returns:
+            - A set object containing the misspelled words that were not fixed.
+            - A dictionary with key corresponding to the misspelled word
+                and value the fixed word.
+
+        """
+
+        respelled_set = {}
+        unfixed_words = set([])
+
+        for error_words in words:
+            res = self.infer_correct_word(
+                error_words, **infer_correct_word_params)
+
+            word = res["word"]
+            correct_word = res["correct_word"]
+            score = res["score"]
+
+            if correct_word and score > self.spell_threshold:
+                if correct_word.istitle() and not self.allow_proper:
+                    # If the respelling results to a `Title` word
+                    # it implies that the word is a proper noun, therefore, omit.
+                    unfixed_words.add(word)
+                else:
+                    # Split and filter since some words are compound terms.
+                    respelled_set[word] = [
+                        i.lower()
+                        for i in correct_word.split()
+                        if self.qualified_word(i)
+                    ]
+
+                    if not return_tokens_as_list:
+                        respelled_set[word] = " ".join(respelled_set[word])
+
+            else:
+                unfixed_words.add(word)
+
+        return unfixed_words, respelled_set
+
+
+class OptimizedSpellChecker(SpellChecker):
+    """
+    Reduces the tokens only to unique words in the text. Output is not in the same order relative
+    to the original text.
+    """
+
+    dict_words = set()
+
+    def __init__(self, config=None, lang=None, text=None,
+                 tokenize=None, chunkers=None, filters=None):
+
+        if config:
+            self.config = config
+        else:
+            self.config = dict(spell_checker=dict(
+                lang=lang,
+                text=text,
+                tokenize=tokenize,
+                chunkers=chunkers,
+                filters=filters
+            ))
+
+        spell_checker_conf = self.config['spell_checker']
+
+        super().__init__(
+            # spell_checker_conf.get('lang', lang),
+            lang=en_lang.get_en_dict(),
+            text=spell_checker_conf.get('text', text),
+            tokenize=spell_checker_conf.get('tokenize', tokenize),
+            chunkers=spell_ch
