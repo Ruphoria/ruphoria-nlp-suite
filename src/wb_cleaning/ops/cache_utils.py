@@ -56,4 +56,79 @@ except redis.ConnectionError:
 
     try:
         redis_cache.hset('test', '1029', '1029')
-    except redis.ConnectionError as er
+    except redis.ConnectionError as error:
+        args = list(error.args)
+        message = """
+        # # If redis is not yet present, instantiate a docker instance of redis using the following command...
+        # docker run --name=wb-cleaning-redis --publish=6379:6379 --hostname=redis --restart=on-failure --detach redis:latest"""
+        args[0] = f"{args[0]}\n\n{message}"
+        error.args = tuple(args)
+
+        raise error
+
+
+def get_from_bucket(bucket_id, key):
+    '''Wrapper function for hget.
+    '''
+    return redis_cache.hget(bucket_id, key)
+
+
+def store_to_bucket(bucket_id, key, value):
+    '''Wrapper function for hset.
+    '''
+    return redis_cache.hset(bucket_id, key, value)
+
+
+def get_func_fullname(func):
+    # derived from joblib: https://github.com/joblib/joblib/blob/master/joblib/memory.py
+    """Compute the part of part associated with a function."""
+    modules, funcname = joblib.func_inspect.get_func_name(func)
+    modules.append(funcname)
+
+    return os.path.join(*modules)
+
+
+def get_argument_hash(func, args, kwargs, ignore_list=None):
+    if ignore_list is None:
+        ignore_list = []
+
+    argument_hash = joblib.hashing.hash(
+        joblib.func_inspect.filter_args(
+            func, ignore_list, args, kwargs),
+        # (self.mmap_mode is not None) # mmap_mode is None by default
+        coerce_mmap=False
+    )
+
+    return argument_hash
+
+
+def redis_cacher(func):
+    # TODO: add a namespace
+    '''
+    Must be used only to cache string in the meantime.
+    For unhashed key, specify the `argument_hash` kwargs.
+    '''
+    def wrapper(*args, **kwargs):
+
+        argument_hash = kwargs.get(
+            'argument_hash', get_argument_hash(func, args, kwargs))
+        func_id = get_func_fullname(func)
+
+        store_to_bucket(CACHE_HASH_BUCKET, func_id, 0)
+
+        fromcache = redis_cache.hget(func_id, argument_hash)
+
+        if fromcache is None:
+            value = func(*args, **kwargs)
+            tocache = json.dumps(value)
+
+            # print(func_id, argument_hash)
+            redis_cache.hset(func_id, argument_hash, tocache)
+        else:
+            # Decode since redis returns a byte encoded string
+            fromcache = fromcache.decode('utf-8')
+            value = json.loads(fromcache)
+
+        return value
+
+    return wrapper
