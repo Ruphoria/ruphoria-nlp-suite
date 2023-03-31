@@ -196,3 +196,39 @@ for cname, normed in mapping.items():
     # Make sure to add a trailing space at the end of the code below.
     # This guarantees that we isolate the token from symbols, e.g., comma, period, etc.
     code = f"{anchor_code}{DELIMITER}{normed['code']} "
+    if code in country_map:
+        country_map[code].append(cname)
+    else:
+        country_map[code] = [cname]
+
+# NOTE: Add this since some OCR parsing resulted to l instead of I.
+country_map[f"{anchor_code}{DELIMITER}CIV "].append("Cote d'lvoire")
+
+country_code_processor.add_keywords_from_dict(country_map)
+
+
+REGION_COLORS = {
+    # https://lospec.com/palette-list/dawnbringers-8-color
+    RegionTypes.east_asia_and_pacific: "#55415f",
+    RegionTypes.europe_and_central_asia: "#646964",
+    RegionTypes.latin_america_and_caribbean: "#d77355",
+    RegionTypes.middle_east_and_north_africa: "#508cd7",
+    RegionTypes.north_america: "#64b964",
+    RegionTypes.south_asia: "#e6c86e",
+    RegionTypes.sub_saharan_africa: "#dcf5ff",
+}
+
+
+COUNTRY_REGION_COLORS = {code: REGION_COLORS.get(
+    RegionTypes(standardized_regions_iso3c.get(code))) for code in standardized_regions_iso3c}
+
+
+# {
+#     "CHI": "Channel Islands",
+#     "CSK": "Czechoslovakia",
+#     "PIC": "Pacific Islands",
+#     "SUN": "Soviet Union",
+#     "WBG": "West Bank and Gaza",
+#     "XKX": "Kosovo",
+#     "YUG": "Yougoslavia",
+# }
