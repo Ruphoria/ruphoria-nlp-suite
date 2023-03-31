@@ -32,4 +32,68 @@ class LicenseItem(BaseModel):
 
 
 class GeographicUnit(BaseModel):
-    name: str = Field(None
+    name: str = Field(None, description='Name of the geographic unit e.g. "World", "Africa", "Afghanistan", "OECD countries", "Bangkok".')
+    code: str = Field(None, description="Code of the geographic unit. The ISO 3166-1 alpha-3 code is preferred when the unit is a country.")
+    type: str = Field(None, description='Type of geographic unit e.g. "country", "state", "region", "province", "city", etc.')
+
+
+class TimePeriod(BaseModel):
+    start: date = Field(None, description="The initial date of the series in the dataset. The start date should be entered in ISO 8601 format (YYYY-MM-DD or YYYY-MM or YYYY).")
+    end: date = Field(None, description="The end date is the latest date for which an estimate for the indicator is available. The end date should be entered in ISO 8601 format (YYYY-MM-DD or YYYY-MM or YYYY).")
+
+
+class KeywordItem(BaseModel):
+    name: str = Field(..., description="Keyword (or phrase). Keywords summarize the content or subject matter of the study.")
+    vocab: str = Field(None, description="Controlled vocabulary from which the keyword is extracted, if any.")
+    uri: str = Field(None, description="The URI of the controlled vocabulary used, if any.")
+
+
+class DefinitionReference(BaseModel):
+    source: str = Field(None, description="The source of the definition (title, or label).")
+    uri: str = Field(None, description="A link (URL) to the source of the definition.")
+    note: str = Field(None, description="This element provides for annotating or explaining the reason the reference has been included as part of the metadata.")
+
+
+class ApiDocumentation(BaseModel):
+    description: str = Field(None, description="This element will not contain the API documentation itself, but information on what documentation is available.")
+    uri: str = Field(None, description="The URL of the API documentation.")
+
+
+class TopicItem(BaseModel):
+    id: str = Field(None, description="The unique identifier of the topic. It can be a sequential number, or the ID of the topic in a controlled vocabulary.")
+    name: str = Field(None, description="The label of the topic associated with the data.")
+    parent_id: str = Field(None, description="When a hierarchical (nested) controlled vocabulary is used, the parent_id field can be used to indicate a higher-level topic to which this topic belongs.")
+    vocabulary: str = Field(None, description="The name of the controlled vocabulary used, if any.")
+    uri: str = Field(None, description="A link to the controlled vocabulary mentioned in field vocabulary.")
+
+
+class DimensionItem(BaseModel):
+    label: str = Field(None, description='The label of the disaggregation level, for example "sex", or "urban/rural".')
+    description: str = Field(None, description='A description of the disaggregation level (for example, if the label was "age group", the description can provide detailed information on the age groups, e.g. "The age groups in the database are 0-14, 15-49, 50-64, and 65+ years old".)')
+
+
+class ConceptItem(BaseModel):
+    name: str = Field(None, description="A concise and standardized name (label) for the concept.")
+    definition: str = Field(None, description="The definition of the concept.")
+    uri: str = Field(None, description="A link (URL) to a resource providing more detailed information on the concept.")
+
+
+class ThemeItem(BaseModel):
+    id: str = Field(None, description="The unique identifier of the theme. It can be a sequential number, or the ID of the theme in a controlled vocabulary.")
+    name: str = Field(None, description="The label of the theme associated with the data.")
+    parent_id: str = Field(None, description="When a hierarchical (nested) controlled vocabulary is used, the parent_id field can be used to indicate a higher-level theme to which this theme belongs.")
+    vocabulary: str = Field(None, description="The name of the controlled vocabulary used, if any.")
+    uri: str = Field(None, description="A link to the controlled vocabulary mentioned in field `vocabulary`.")
+
+
+class DisciplineItem(BaseModel):
+    id: str = Field(None, description="The ID of the discipline, preferably taken from a controlled vocabulary.")
+    name: str = Field(None, description="The name (label) of the discipline, preferably taken from a controlled vocabulary.")
+    parent_id: str = Field(None, description="The parent ID of the discipline (ID of the item one level up in the hierarchy), if a hierarchical controlled vocabulary is used.")
+    vocabulary: str = Field(None, description="The name (including version number) of the controlled vocabulary used, if any.")
+    uri: str = Field(None, description="The URL to the controlled vocabulary used, if any.")
+
+
+class CountryItem(BaseModel):
+    name: str = Field(None, description="The name of the country.")
+    code: str = Field(None, description="The code of the
