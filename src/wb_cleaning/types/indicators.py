@@ -96,4 +96,50 @@ class DisciplineItem(BaseModel):
 
 class CountryItem(BaseModel):
     name: str = Field(None, description="The name of the country.")
-    code: str = Field(None, description="The code of the
+    code: str = Field(None, description="The code of the country. The use of the ISO 3166-1 alpha-3 codes is recommended.")
+
+
+class LinkItem(BaseModel):
+    type: str = Field(None, description="This element allows to classify the link that is provided.")
+    description: str = Field(None, description="A description of the link that is provided.")
+    uri: str = Field(None, description="The uri (URL) to the described resource.")
+
+
+class AuthoringEntity(BaseModel):
+    name: str = Field(None, description="The name of the person or organization who is responsible for the production of the indicator or series. Write the name in full (use the element abbreviation to capture the acronym of the organization, if relevant).")
+    affiliation: str = Field(None, description="The affiliation of the person or organization mentioned in name.")
+    abbreviation: str = Field(None, description="Abbreviated name (acronym) of the organization mentioned in name.")
+    email: str = Field(None, description="The public email contact of the person or organizations mentioned in name. It is good practice to provide a service account email address, not a personal one.")
+    uri: str = Field(None, description="A link (URL) to the website of the entity mentioned in name.")
+
+
+class SourceItem(BaseModel):
+    id: str = Field(..., description="This element records the unique identifier of a source. It is a required element. If the source does not have a specific unique identifier, a sequential number can be used. If the source is a dataset or database that has its own unique identifier (possibly a DOI), this identifier should be used.")
+    name: str = Field(None, description="The name (title, or label) of the source.")
+    organization: str = Field(None, description="The organization responsible for the source data.")
+    type: str = Field(None, description='The type of source, e.g. "household survey", "administrative data", or "external database".')
+    note: str = Field(None, description="This element can be used to provide additional information regarding the source data.")
+
+
+class SeriesDescription(BaseModel):
+    """Definitions for an indicator metadata based from: https://mah0001.github.io/schema-guide/chapter07.html#series-description
+    """
+
+    idno: str = Field(..., description="A unique identifier (ID) for the series.")
+    doi: str = Field(None, description="A Digital Object Identifier (DOI) for the the series.")
+    name: str = Field(..., description="The name (label) of the series. Note that a field alias is provided (see below) to capture alternative names for the series.")
+    database_id: str = Field(None, description="The unique identifier of the database the series belongs to.")
+    aliases: List[AliasItem] = Field(None, description="A series or an indicator can be referred to using different names. The aliases element is provided to capture the multiple names and labels that may be associated with (i.e synomyms of) the documented series or indicator.")
+
+    measurement_unit: str = Field(None, description="The unit of measurement. Note that in many databases the measurement unit will be included in the series name/label.")
+    dimensions: List[DimensionItem] = Field(None, description='This is used to provide an itemized list of disaggregations that correspond exactly to the published data. Note that when an indicator is available at two "non-overlapping" levels of disaggregation, it should be split into two indicators.')
+    periodicity: str = Field(None, description="The periodicity of the series. It is recommended to use a controlled vocabulary with values like annual, quarterly, monthly, daily, etc.")
+
+    base_period: str = Field(None, description="The base period for the series. This field will only apply to series that require a base year (or other reference time) used as a benchmark, like a Consumer Price Index (CPI) which will have a value of 100 for a reference base year.")  # missing in schema
+    definition_short: str = Field(None, description="A short definition of the series. The short definition captures the essence of the series.")  # not in script
+    definition_long: str = Field(None, description="A long(er) version of the definition of the series. If only one definition is available (not a short/long version), it is recommended to capture it in the definition_short element. ALternatively, the same definition can be stored in both definition_short and definition_long.")  # missing in schema
+
+    definition_references: List[DefinitionReference] = Field(None, description="This element is provided to link to an external resources from which the definition was extracted.")
+
+    statistical_concept: str = Field(None, description="This element allows to insert a reference of the series with content of a statistical character. This can include coding concepts or standards that are applied to render the data statistically relevant.")
+    concepts: List[ConceptItem] = Field(None, description='This repeatable element can be used to
