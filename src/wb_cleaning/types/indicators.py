@@ -174,4 +174,11 @@ class SeriesDescription(BaseModel):
 
     # notes: List[NoteItem] = Field(None, description="")
     # related_indicators: List[IndicatorItem] = Field(None, description="")  # not in script
-    # compliance: List[ComplianceItem] = Field(None, description="")  # not in 
+    # compliance: List[ComplianceItem] = Field(None, description="")  # not in script
+    # framework: List[FrameworkItem] = Field(None, description="")  # not in script
+    # lda_topics: List[LdaTopicItem] = Field(None, description="")  # not in script
+    # embeddings: List[EmbeddingItem] = Field(None, description="")  # not in script
+
+
+class IndicatorsSchema(BaseModel):
+    series_description: SeriesDescription
