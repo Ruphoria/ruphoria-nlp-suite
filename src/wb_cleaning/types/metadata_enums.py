@@ -166,4 +166,138 @@ class WBAdminRegions(WBEnum):
     africa_west = "Africa West"
     east_asia_and_pacific = "East Asia and Pacific"
     europe_and_central_asia = "Europe and Central Asia"
-    latin_ame
+    latin_america_and_caribbean = "Latin America and Caribbean"
+    middle_east_and_north_africa = "Middle East and North Africa"
+    # oth = "OTH"
+    # other = "Other"
+    others = "Others"
+    rest_of_the_world = "Rest Of The World"
+    south_asia = "South Asia"
+    the_world_region = "The World Region"
+
+    @classmethod
+    def clean(cls, value):
+
+        mappings = {
+            "latin america & caribbean": "Latin America and Caribbean",
+            "latin america &amp; caribbean": "Latin America and Caribbean",
+            "oth": "Others",
+            "other": "Others",
+            None: "",
+        }
+
+        value = mappings.get(value.lower(), value)
+
+        return value
+
+
+class WBDocTypes(WBEnum):
+    '''Curated list of document types.
+
+    delimiter = ","
+
+    TODO: For further review
+
+    {'': 15819,
+    'Financial Sector Assessment Program (FSAP)': 146,
+    'Auditing Document,Financial Monitoring Report,Memorandum,Letter': 138,
+    'IEG Approach Paper': 122,
+    'Investment Climate Assessment (ICA)': 103,
+    'Economic Updates and Modeling': 103,
+    'Energy Study': 102,
+    'Other Education Study': 83,
+    'Inspection Panel Notice of Registration': 79,
+    'General Economy, Macroeconomics and Growth Study': 78,
+    'Safeguards Diagnostic Review': 72,
+    'Interim Strategy Note': 71,
+    'World Development Indicators': 65,
+    'Country Financial Accountability Assessment': 64,
+    'Corporate Governance Assessment (ROSC)': 63,
+    'Social Analysis': 62,
+    'Other Rural Study': 59,
+    'Foreign Trade, FDI, and Capital Flows Study': 58,
+    'Country Procurement Assessment (CPAR)': 56,
+    'Other Urban Study': 56,
+    'GEF Project Brief': 55,
+    'Development Policy Review (DPR)': 52,
+    'Country Environmental Analysis (CEA)': 52,
+    'Integrative Fiduciary Assessment': 52,
+    'Education Sector Review': 49,
+    'Manual': 47,
+    'Investigation Report': 45,
+    'Health Sector Review': 42,
+    'Sector or Thematic Evaluation': 42,
+    'Tranche Release Document': 41,
+    'Country Assistance Evaluation': 40,
+    'Commodity Working Paper': 40,
+    'Program-for-Results Fiduciary Systems Assessment': 39,
+    'PSD, Privatization and Industrial Policy': 38,
+    'Program-for-Results Technical Assessment': 38,
+    'Mining/Oil and Gas': 33,
+    'Water & Sanitation Discussion Paper': 31,
+    'Country Partnership Framework': 31,
+    'Knowledge Economy Study': 29,
+    'Global Development Finance - formerly World Debt Tables': 28,
+    'Other Financial Accountability Study': 28,
+    'City Development Strategy (CDS)': 27,
+    'Institutional and Governance Review (IGR)': 27,
+    'Country Gender Assessment (CGA)': 26,
+    'Internal Discussion Paper': 26,
+    'Environment Working Paper': 23,
+    'Memorandum & Recommendation of the Director': 22,
+    'Global Environment Facility Working Paper': 20,
+    'Corporate Evaluation': 19,
+
+    'Women in Development and Gender Study': 19,
+    'Rural Development Assessment': 19,
+    'Risk and Vulnerability Assessment': 17,
+    "Governor's Statement": 17,
+    'Memorandum,Financial Monitoring Report,Letter,Auditing Document': 16,
+    'LAC Human & Social Development Group Paper Series': 16,
+    'Memorandum & Recommendation of the Managing Director': 16,
+    'Project Appraisal Document Data Sheet': 15,
+    'Strategic Environmental Assessment/Analysis': 14,
+    'Legal and Judicial Sector Assessment': 13,
+    'Energy-Environment Review': 13,
+    'Policy Paper': 13,
+    'Country Portfolio Performance Review': 13,
+    'Law and Justice Study': 13,
+    'Impact Evaluation Report': 13,
+    'Country Infrastructure Framework': 12,
+    'Report on the World Bank Research Program': 12,
+    'Country Engagement Note': 12,
+    'Completion Point Document': 11,
+    'Other Procurement Study': 10,
+    'Commodities Study': 10,
+    'GEF Project Document': 10,
+    'Preliminary Decision Point Document': 9,
+    'Insolvency Assessment (ROSC)': 9,
+    'Annual Report on Portfolio Performance': 7,
+    'Public Investment Review': 7,
+    'Deliverable Document': 7,
+    'Transitional Support Strategy': 6,
+    'Memorandum &amp; Recommendation of the President': 6,
+    'Directory': 5,
+    'Country Re-engagement Note': 5,
+    'Environmental and Social Framework': 5,
+    'Financial Flows': 4,
+    'World Bank Atlas': 4,
+    'Debt and Creditworthiness Study': 4,
+    'Financial Assessment': 4,
+    'Price Prospects for Major Primary Commodities': 4,
+    'Legal Opinion': 3,
+    'Environmental Action Plan': 3,
+    'Memorandum,Agreement': 3,
+    'Human Capital Working Paper': 3,
+    'President&apos;s Report': 3,
+    'Decision Point Document': 2,
+    'CAS Public Information Note': 2,
+    'Project Concept Note': 2,
+    'P4R-AF-DRFT-ESSA': 2,
+    'Social Action Plan': 2,
+    'Environmental Action Plan,Social Action Plan': 2,
+    "Managing Director's Report": 2,
+    'Public Environmental Expenditure Review (PEER)': 1,
+    'Poverty & Social Policy Working Paper': 1,
+    'Economic Report': 1,
+    'Memorandum,Financial Monitoring Report,Auditing Document,Le
