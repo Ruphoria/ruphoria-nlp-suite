@@ -300,4 +300,93 @@ class WBDocTypes(WBEnum):
     'Public Environmental Expenditure Review (PEER)': 1,
     'Poverty & Social Policy Working Paper': 1,
     'Economic Report': 1,
-    'Memorandum,Financial Monitoring Report,Auditing Document,Le
+    'Memorandum,Financial Monitoring Report,Auditing Document,Letter': 1,
+    'Auditing/Financial Management,Auditing Document': 1,
+    'RP-SP-FULL': 1,
+    'Guideline': 1,
+    'PROJ-PAP-SP': 1,
+    'Issues Paper': 1,
+    'The Environmental and Social Review Summary': 1,
+    'DRFT-ENV-ASMT-SHP': 1,
+    'P4R-AF-APP-PID': 1,
+    'Financial Statement,Auditing Document': 1,
+    'P4R-AF-FIN-ESSA': 1,
+    'Disclosable Project Appraisal Document (PAD)': 1,
+    'MADIA Discussion Paper': 1,
+    'Recent Economic Developments in Infrastructure (REDI)': 1}
+    '''
+
+    # Manually defined
+    EMPTY = ""
+    annual_report_on_portfolio_performance = "Annual Report on Portfolio Performance"
+    auditing_financial_management = "Auditing/Financial Management"
+    cas_public_information_note = "CAS Public Information Note"
+    city_development_strategy = "City Development Strategy"
+    commodities_study = "Commodities Study"
+    commodity_working_paper = "Commodity Working Paper"
+    completion_point_document = "Completion Point Document"
+    corporate_evaluation = "Corporate Evaluation"
+    corporate_governance_assessment = "Corporate Governance Assessment"
+    country_assistance_evaluation = "Country Assistance Evaluation"
+    country_engagement_note = "Country Engagement Note"
+    country_environmental_analysis = "Country Environmental Analysis"
+    country_financial_accountability_assessment = "Country Financial Accountability Assessment"
+    country_gender_assessment = "Country Gender Assessment"
+    country_infrastructure_framework = "Country Infrastructure Framework"
+    country_partnership_framework = "Country Partnership Framework"
+    country_portfolio_performance_review = "Country Portfolio Performance Review"
+    country_procurement_assessment = "Country Procurement Assessment"
+    country_reengagement_note = "Country Re-engagement Note"
+    dataset = "Dataset"
+    debt_and_creditworthiness_study = "Debt and Creditworthiness Study"
+    decision_point_document = "Decision Point Document"
+    deliverable_document = "Deliverable Document"
+    development_policy_review = "Development Policy Review"
+    directory = "Directory"
+    disclosable_project_appraisal_document = "Disclosable Project Appraisal Document"
+    drft_env_asmt_shp = "DRFT-ENV-ASMT-SHP"
+    economic_report = "Economic Report"
+    economic_updates_and_modeling = "Economic Updates and Modeling"
+    education_sector_review = "Education Sector Review"
+    energy_environment_review = "Energy-Environment Review"
+    energy_study = "Energy Study"
+    environment_working_paper = "Environment Working Paper"
+    environmental_action_plan = "Environmental Action Plan"
+    environmental_and_social_framework = "Environmental and Social Framework"
+    environmental_and_social_management_framework = "Environmental and Social Management Framework"
+    flash_report = "Flash Report"
+    financial_assessment = "Financial Assessment"
+    financial_flows = "Financial Flows"
+    financial_sector_assessment_program = "Financial Sector Assessment Program"
+    foreign_trade_fdi_and_capital_flows_study = "Foreign Trade; FDI; and Capital Flows Study"
+    gef_project_brief = "GEF Project Brief"
+    gef_project_document = "GEF Project Document"
+    general_economy_macroeconomics_and_growth_study = "General Economy; Macroeconomics and Growth Study"
+    global_development_finance_formerly_world_debt_tables = "Global Development Finance - formerly World Debt Tables"
+    global_environment_facility_working_paper = "Global Environment Facility Working Paper"
+    governors_statement = "Governor's Statement"
+    guideline = "Guideline"
+    health_sector_review = "Health Sector Review"
+    human_capital_working_paper = "Human Capital Working Paper"
+    ieg_approach_paper = "IEG Approach Paper"
+    ieg_evaluation = "IEG Evaluation"
+    impact_evaluation_report = "Impact Evaluation Report"
+    insolvency_assessment = "Insolvency Assessment"
+    inspection_panel_notice_of_registration = "Inspection Panel Notice of Registration"
+    institutional_and_governance_review = "Institutional and Governance Review"
+    integrative_fiduciary_assessment = "Integrative Fiduciary Assessment"
+    interim_strategy_note = "Interim Strategy Note"
+    internal_discussion_paper = "Internal Discussion Paper"
+    investigation_report = "Investigation Report"
+    investment_climate_assessment = "Investment Climate Assessment"
+    issues_paper = "Issues Paper"
+    knowledge_economy_study = "Knowledge Economy Study"
+    lac_human_and_social_development_group_paper_series = "LAC Human and Social Development Group Paper Series"
+    law_and_justice_study = "Law and Justice Study"
+    legal_and_judicial_sector_assessment = "Legal and Judicial Sector Assessment"
+    legal_opinion = "Legal Opinion"
+    madia_discussion_paper = "MADIA Discussion Paper"
+    managing_directors_report = "Managing Director's Report"
+    manual = "Manual"
+    memorandum_and_recommendation_of_the_director = "Memorandum and Recommendation of the Director"
+    memorandum_and_recommendation_of_the_managing_director = "Memorandum and Recommendation of the Manag
