@@ -562,4 +562,137 @@ class WBDocTypes(WBEnum):
             "Country Gender Assessment (CGA)": "Country Gender Assessment",
             "Memorandum & Recommendation of the Director": "Memorandum and Recommendation of the Director",
             "LAC Human & Social Development Group Paper Series": "LAC Human and Social Development Group Paper Series",
-            "Memorandum & Recommendation of the Managing Director
+            "Memorandum & Recommendation of the Managing Director": "Memorandum and Recommendation of the Managing Director",
+            "Insolvency Assessment (ROSC)": "Insolvency Assessment",
+            "Memorandum &amp; Recommendation of the President": "Memorandum and Recommendation of the President",
+            "President&apos;s Report": "President's Report",
+            "Public Environmental Expenditure Review (PEER)": "Public Environmental Expenditure Review",
+            "Poverty & Social Policy Working Paper": "Poverty and Social Policy Working Paper",
+            "Disclosable Project Appraisal Document (PAD)": "Disclosable Project Appraisal Document",
+            "Recent Economic Developments in Infrastructure (REDI)": "Recent Economic Developments in Infrastructure",
+            "General Economy, Macroeconomics and Growth Study": "General Economy; Macroeconomics and Growth Study",
+            "PSD, Privatization and Industrial Policy": "PSD; Privatization and Industrial Policy",
+
+            # Cleaning doc type from WB API
+            "Accounting and Auditing Assessment (ROSC)": "Accounting and Auditing Assessment",
+            "Memorandum & Recommendation of the President": "Memorandum and Recommendation of the President",
+            "Poverty Reduction Strategy Paper (PRSP)": "Poverty Reduction Strategy Paper",
+
+            None: "",
+        }
+
+        value = mappings.get(value, value)
+
+        return value
+
+
+class WBMajorDocTypes(WBEnum):
+    '''Curated list of major document types.
+
+    TODO: For further review
+
+    {'': 14158}
+
+    '''
+    # Manually defined
+    EMPTY = ""
+
+    # From WB docs API curated list
+    board_documents = "Board Documents"
+    country_focus = "Country Focus"
+    economic_and_sector_work = "Economic and Sector Work"
+    # economic_sector_work = "Economic & Sector Work"
+    # economic_amp_sector_work = "Economic &amp; Sector Work"
+    project_documents = "Project Documents"
+    # publications = "Publications"
+    publications_and_research = "Publications and Research"
+    # publications_research = "Publications & Research"
+    # publications_amp_research = "Publications &amp; Research"
+
+    @ classmethod
+    def clean(cls, value):
+
+        mappings = {
+            "Publication": "Publications and Research",
+            "Publications": "Publications and Research",
+            "Publications & Research": "Publications and Research",
+            "Publications &amp; Research": "Publications and Research",
+            "Economic & Sector Work": "Economic and Sector Work",
+            "Economic &amp; Sector Work": "Economic and Sector Work",
+            None: "",
+        }
+
+        value = mappings.get(value, value)
+
+        return value
+
+
+class MajorDocTypes(WBEnum):
+    '''
+    Curated list of major document types.
+    Document types are adapted from various sources as needed.
+    '''
+    EMPTY = ""
+
+    # From ADB
+    # evaluation_document = "Evaluation Document"
+
+    # From WB docs API curated list
+    board_documents = "Board Documents"
+    # country_focus = "Country Focus"
+    # economic_and_sector_work = "Economic and Sector Work"
+    project_documents = "Project Documents"
+    # publications_and_research = "Publications and Research"
+    publications_and_reports = "Publications and Reports"
+
+    @ classmethod
+    def clean(cls, value):
+
+        mappings = {
+            "Publication": "Publications and Research",
+            "Publications": "Publications and Research",
+            "Publications & Research": "Publications and Research",
+            "Publications &amp; Research": "Publications and Research",
+
+            "Economic & Sector Work": "Economic and Sector Work",
+            "Economic &amp; Sector Work": "Economic and Sector Work",
+
+            "Project Document": "Project Documents",
+            None: "",
+        }
+
+        value = mappings.get(value, value)
+
+        # Unification of major document types to Publications and Reports
+        other_types = {"Evaluation Document", "Country Focus",
+                       "Economic and Sector Work", "Publications and Research"}
+
+        if value in other_types:
+            value = "Publications and Reports"
+
+        return value
+
+
+class RegionTypes(WBEnum):
+    '''
+    Curated list of regions.
+    The list is based on the data/whitelists/countries/codelist.xlsx file.
+    '''
+    EMPTY = ""
+
+    east_asia_and_pacific = 'East Asia & Pacific'
+    europe_and_central_asia = 'Europe & Central Asia'
+    latin_america_and_caribbean = 'Latin America & Caribbean'
+    middle_east_and_north_africa = 'Middle East & North Africa'
+    north_america = 'North America'
+    south_asia = 'South Asia'
+    sub_saharan_africa = 'Sub-Saharan Africa'
+
+    @ classmethod
+    def clean(cls, value):
+        value = value.strip().lower()
+
+        mappings = {
+            "east asia and pacific": "East Asia & Pacific",
+            "europe and central asia": "Europe & Central Asia",
+  
