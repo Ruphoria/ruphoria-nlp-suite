@@ -477,4 +477,89 @@ class WBDocTypes(WBEnum):
     implementation_status_and_results_report = "Implementation Status and Results Report"
     indigenous_peoples_plan = "Indigenous Peoples Plan"
     information_notice = "Information Notice"
-    inspection_panel_report_and_recommendation = "In
+    inspection_panel_report_and_recommendation = "Inspection Panel Report and Recommendation"
+    integrated_safeguards_data_sheet = "Integrated Safeguards Data Sheet"
+    journal_article = "Journal Article"
+    letter = "Letter"
+    letter_of_development_policy = "Letter of Development Policy"
+    loan_agreement = "Loan Agreement"
+    memorandum = "Memorandum"
+    memorandum_and_recommendation_of_the_president = "Memorandum and Recommendation of the President"
+    minutes = "Minutes"
+    monthly_operational_summary = "Monthly Operational Summary"
+    news_story = "News Story"
+    newsletter = "Newsletter"
+    note_on_cancelled_operation = "Note on Cancelled Operation"
+    other_agricultural_study = "Other Agricultural Study"
+    other_environmental_study = "Other Environmental Study"
+    other_financial_sector_study = "Other Financial Sector Study"
+    other_health_study = "Other Health Study"
+    other_infrastructure_study = "Other Infrastructure Study"
+    other_poverty_study = "Other Poverty Study"
+    other_public_sector_study = "Other Public Sector Study"
+    other_social_protection_study = "Other Social Protection Study"
+    policy_note = "Policy Note"
+    policy_research_working_paper = "Policy Research Working Paper"
+    poverty_assessment = "Poverty Assessment"
+    poverty_reduction_strategy_paper = "Poverty Reduction Strategy Paper"
+    pre_economic_or_sector_report = "Pre-2003 Economic or Sector Report"
+    presidents_report = "President's Report"
+    presidents_speech = "President's Speech"
+    procedure_and_checklist = "Procedure and Checklist"
+    procurement_plan = "Procurement Plan"
+    program_document = "Program Document"
+    program_information_document = "Program Information Document"
+    program_for_results_environmental_and_social_systems_assessment = "Program-for-Results Environmental and Social Systems Assessment"
+    project_agreement = "Project Agreement"
+    project_appraisal_document = "Project Appraisal Document"
+    project_completion_report = "Project Completion Report"
+    project_implementation_plan = "Project Implementation Plan"
+    project_information_document = "Project Information Document"
+    project_information_and_integrated_safeguards_data_sheet = "Project Information and Integrated Safeguards Data Sheet"
+    project_paper = "Project Paper"
+    project_performance_assessment_report = "Project Performance Assessment Report"
+    project_preparation_facility_document = "Project Preparation Facility Document"
+    project_status_report = "Project Status Report"
+    public_expenditure_review = "Public Expenditure Review"
+    publication = "Publication"
+    report = "Report"
+    resettlement_plan = "Resettlement Plan"
+    side_letter = "Side Letter"
+    social_assessment = "Social Assessment"
+    staff_appraisal_report = "Staff Appraisal Report"
+    staff_working_paper = "Staff Working Paper"
+    stakeholder_engagement_plan = "Stakeholder Engagement Plan"
+    statutory_committee_report = "Statutory Committee Report"
+    systematic_country_diagnostic = "Systematic Country Diagnostic"
+    technical_annex = "Technical Annex"
+    transcript = "Transcript"
+    trust_fund_administrative_agreement = "Trust Fund Administrative Agreement"
+    viewpoint = "Viewpoint"
+    wbi_working_paper = "WBI Working Paper"
+    working_paper = "Working Paper"
+    working_paper_numbered_series = "Working Paper (Numbered Series)"
+    world_bank_annual_report = "World Bank Annual Report"
+    world_development_report = "World Development Report"
+
+    @ classmethod
+    def clean(cls, value):
+        if value.strip().startswith("Implementation Status and Results Report"):
+            value = "Implementation Status and Results Report"
+        elif value.strip().startswith("Project Paper"):
+            value = "Project Paper"
+
+        mappings = {
+            "Financial Sector Assessment Program (FSAP)": "Financial Sector Assessment Program",
+            "Investment Climate Assessment (ICA)": "Investment Climate Assessment",
+            "Corporate Governance Assessment (ROSC)": "Corporate Governance Assessment",
+            "Foreign Trade, FDI, and Capital Flows Study": "Foreign Trade; FDI; and Capital Flows Study",
+            "Country Procurement Assessment (CPAR)": "Country Procurement Assessment",
+            "Development Policy Review (DPR)": "Development Policy Review",
+            "Country Environmental Analysis (CEA)": "Country Environmental Analysis",
+            "Water & Sanitation Discussion Paper": "Water and Sanitation Discussion Paper",
+            "City Development Strategy (CDS)": "City Development Strategy",
+            "Institutional and Governance Review (IGR)": "Institutional and Governance Review",
+            "Country Gender Assessment (CGA)": "Country Gender Assessment",
+            "Memorandum & Recommendation of the Director": "Memorandum and Recommendation of the Director",
+            "LAC Human & Social Development Group Paper Series": "LAC Human and Social Development Group Paper Series",
+            "Memorandum & Recommendation of the Managing Director
