@@ -695,4 +695,124 @@ class RegionTypes(WBEnum):
         mappings = {
             "east asia and pacific": "East Asia & Pacific",
             "europe and central asia": "Europe & Central Asia",
-  
+            "latin america and caribbean": "Latin America & Caribbean",
+            "middle east and north africa": "Middle East & North Africa",
+            "sub saharan africa": "Sub-Saharan Africa",
+            "subsaharan africa": "Sub-Saharan Africa",
+            None: "",
+        }
+
+        value = mappings.get(value, value)
+        value = value.title()
+
+        return value
+
+
+class WBTopics(enum.Enum):
+    '''Curated list of topics.
+
+    NOTE: What is this??? https://vocabulary.worldbank.org/PoolParty/sparql/taxonomy
+
+    PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+    SELECT DISTINCT ?Concept ?prefLabel
+    WHERE
+    { ?Concept ?x skos:Concept .
+    { ?Concept skos:prefLabel ?prefLabel . FILTER (regex(str(?prefLabel), '.*', 'i'))  }
+    } ORDER BY ?prefLabel
+
+
+    PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+    SELECT DISTINCT ?Concept ?altLabel
+    WHERE
+    { ?Concept ?x skos:Concept .
+    { ?Concept skos:altLabel ?altLabel . FILTER (regex(str(?altLabel), '.*', 'i'))  }
+    } ORDER BY ?altLabel
+
+
+    delimiter = ","
+
+    TODO: For further review
+
+    d = d.replace("Health, Nutrition and Population",
+                "Health; Nutrition and Population")
+
+    {'': 68000}
+
+    '''
+    # Manually defined
+    EMPTY = ""
+
+    # From WB docs API curated list
+    agriculture = "Agriculture"
+    communities_and_human_settlements = "Communities and Human Settlements"
+    conflict_and_development = "Conflict and Development"
+    culture_and_development = "Culture and Development"
+    education = "Education"
+    energy = "Energy"
+    environment = "Environment"
+    finance_and_financial_sector_development = "Finance and Financial Sector Development"
+    gender = "Gender"
+    governance = "Governance"
+    health_nutrition_and_population = "Health; Nutrition and Population"
+    industry = "Industry"
+    informatics = "Informatics"
+    information_and_communication_technologies = "Information and Communication Technologies"
+    infrastructure_economics_and_finance = "Infrastructure Economics and Finance"
+    # international_economics_trade = "International Economics & Trade"
+    international_economics_and_trade = "International Economics and Trade"
+    law_and_development = "Law and Development"
+    macroeconomics_and_economic_growth = "Macroeconomics and Economic Growth"
+    poverty_reduction = "Poverty Reduction"
+    private_sector_development = "Private Sector Development"
+    public_sector_development = "Public Sector Development"
+    rural_development = "Rural Development"
+    science_and_technology_development = "Science and Technology Development"
+    social_development = "Social Development"
+    social_protections_and_labor = "Social Protections and Labor"
+    transport = "Transport"
+    urban_development = "Urban Development"
+    water_resources = "Water Resources"
+    water_supply_and_sanitation = "Water Supply and Sanitation"
+
+    @ classmethod
+    def clean(cls, value):
+
+        mappings = {
+            "Health, Nutrition and Population": "Health; Nutrition and Population",
+            "International Economics & Trade": "International Economics and Trade",
+            None: "",
+        }
+
+        value = mappings.get(value, value)
+
+        return value
+
+
+# class WBSubTopics(enum.Enum):
+#     '''Curated list of sub-topics.
+#     '''
+#     access_of_poor_to_social_services = "Access of Poor to Social Services"
+#     agricultural_growth_and_rural_development = "Agricultural Growth and Rural Development"
+#     bankruptcy_and_resolution_of_financial_distress = "Bankruptcy and Resolution of Financial Distress"
+#     banks_banking_reform = "Banks & Banking Reform"
+#     brown_issues_and_health = "Brown Issues and Health"
+#     business_cycles_and_stabilization_policies = "Business Cycles and Stabilization Policies"
+#     climate_change_mitigation_and_green_house_gases = "Climate Change Mitigation and Green House Gases"
+#     climate_change_and_agriculture = "Climate Change and Agriculture"
+#     coastal_and_marine_resources = "Coastal and Marine Resources"
+#     common_carriers_industry = "Common Carriers Industry"
+#     communicable_diseases = "Communicable Diseases"
+#     construction_industry = "Construction Industry"
+#     crops_and_crop_management_systems = "Crops and Crop Management Systems"
+#     de_facto_governments = "De Facto Governments"
+#     debt_markets = "Debt Markets"
+#     democratic_government = "Democratic Government"
+#     disability = "Disability"
+#     disease_control_prevention = "Disease Control & Prevention"
+#     economic_adjustment_and_lending = "Economic Adjustment and Lending"
+#     economic_assistance = "Economic Assistance"
+#     economic_growth = "Economic Growth"
+#     economic_theory_research = "Economic Theory & Research"
+#     economics_and_finance_of_public_institution_development = "Economics and Finance of Public Institution Development"
+#     education_for_all = "Education For All"
+#     educational_institutions_facilities = "E
